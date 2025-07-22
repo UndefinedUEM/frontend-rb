@@ -43,36 +43,50 @@ const Layout = () => {
     </Box>
   );
 
+  const renderHomePageNavbar = () => {
+    return (
+      <Flex h={16} w="full" alignItems="center" justifyContent={{ base: 'flex-start', sm: 'center' }}>
+        <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+      </Flex>
+    );
+  };
+
+  const renderOtherPageNavbar = () => {
+    return (
+      <Flex h={16} alignItems="center" justifyContent="space-between">
+        <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+        <HStack spacing={4}>
+          <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
+            {navLinks}
+          </HStack>
+          <IconButton
+            size="md"
+            variant='link'
+            colorScheme='white'
+            icon={isOpen ? <X /> : <Menu />}
+            aria-label="Abrir menu"
+            display={{ base: 'flex', md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+        </HStack>
+      </Flex>
+    );
+  };
+
+  const renderNavbar = () => {
+    if (isHomePage) return renderHomePageNavbar();
+
+    return renderOtherPageNavbar();
+  };
+
   return (
     <Flex direction="column" minH="100vh">
       <Box bg='teal' color='white' px={4} boxShadow="sm" position="sticky" top={0} zIndex={10}>
-        {isHomePage ? (
-          <Flex h={16} w="full" alignItems="center" justifyContent={{ base: 'flex-start', sm: 'center' }}>
-            <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
-          </Flex>
-        ) : (
-          <Flex h={16} alignItems="center" justifyContent="space-between">
-            <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
-            <HStack spacing={4}>
-              <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-                {navLinks}
-              </HStack>
-              <IconButton
-                size="md"
-                variant='link'
-                colorScheme='white'
-                icon={isOpen ? <X /> : <Menu />}
-                aria-label="Abrir menu"
-                display={{ base: 'flex', md: 'none' }}
-                onClick={isOpen ? onClose : onOpen}
-              />
-            </HStack>
-          </Flex>
-        )}
+        {renderNavbar()}
         {mobileMenu}
       </Box>
 
-      <Box as="main" flex="1" overflowY="auto" >
+      <Box as="main" flex="1" overflowY="auto">
         <Outlet />
       </Box>
 
