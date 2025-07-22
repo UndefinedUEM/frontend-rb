@@ -42,7 +42,7 @@ const HomePage = () => {
               title="Novo Escoteiro"
               text="Faça o cadastro de um novo escoteiro em nosso grupo"
               buttonText="Cadastrar"
-              href="/escoteiros/cadastro"
+              href="/cadastro/escoteiros"
             />
           </Box>
           <Box width={{ base: '90%', sm: '80%', md: '320px' }}>

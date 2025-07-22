@@ -1,21 +1,26 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
-import FeedBackPage from './pages/FeedbackPage';
+import AttendanceListPage from './pages/AttendanceListPage';
+import AttendanceSummaryPage from './pages/AttendanceSummaryPage';
 import HomePage from './pages/HomePage';
-import QRCodeExamplesPage from './pages/QRCodeExamplesPage';
-import QRCodeReaderPage from './pages/QRCodeReaderPage';
-import StudentListPage from './pages/StudentListPage';
+import LoginPage from './pages/LoginPage';
+import PasswordRecoveryPage from './pages/PasswordRecoveryPage';
+import ScoutRegistrationPage from './pages/ScoutRegistrationPage';
+import UserRegistrationPage from './pages/UserRegistrationPage';
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/listas" element={<QRCodeExamplesPage />} />
-        <Route path="/escoteiros/cadastro" element={<QRCodeReaderPage />} />
-        <Route path="/listas/presenca" element={<StudentListPage />} />
-        <Route path="/feedback" element={<FeedBackPage />} />
+        {/* <Route path="/cadastro" element={<UserRegistrationPage />} /> */}
+        <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
+        <Route path="/cadastro/escoteiros" element={<ScoutRegistrationPage />} />
+        <Route path="/listas/presenca" element={<AttendanceListPage />} />
+        <Route path="/lista/presenca/resumo" element={<AttendanceSummaryPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
       </Route>
     </Routes>
   );
