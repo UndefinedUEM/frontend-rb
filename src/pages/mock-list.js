@@ -1,162 +1,42 @@
-export const students = [
-  {
-    id: 'CHAR001',
-    name: 'Harry Potter',
-  },
-  {
-    id: 'CHAR002',
-    name: 'Hermione Granger',
-  },
-  {
-    id: 'CHAR003',
-    name: 'Luke Skywalker',
-  },
-  {
-    id: 'CHAR004',
-    name: 'Darth Vader',
-  },
-  {
-    id: 'CHAR005',
-    name: 'Aragorn Elessar',
-  },
-  {
-    id: 'CHAR006',
-    name: 'Gandalf the Grey',
-  },
-  {
-    id: 'CHAR007',
-    name: 'Leia Organa',
-  },
-  {
-    id: 'CHAR008',
-    name: 'Jon Snow',
-  },
-  {
-    id: 'CHAR009',
-    name: 'Daenerys Targaryen',
-  },
-  {
-    id: 'CHAR010',
-    name: 'Geralt of Rivia',
-  },
-  {
-    id: 'CHAR011',
-    name: 'Master Chief Petty Officer John-117',
-  },
-  {
-    id: 'CHAR012',
-    name: 'Hercule Poirot',
-  },
-  {
-    id: 'CHAR013',
-    name: 'Miss Marple',
-  },
-  {
-    id: 'CHAR014',
-    name: 'Link Link',
-  },
-  {
-    id: 'CHAR015',
-    name: 'Princess Zelda',
-  },
-  {
-    id: 'CHAR016',
-    name: 'Kratos Atreus',
-  },
-  {
-    id: 'CHAR017',
-    name: 'Lara Croft',
-  },
-  {
-    id: 'CHAR018',
-    name: 'Ezio Auditore da Firenze',
-  },
-  {
-    id: 'CHAR019',
-    name: 'Bruce Wayne',
-  },
-  {
-    id: 'CHAR020',
-    name: 'Clark Kent',
-  },
-  {
-    id: 'CHAR021',
-    name: 'Diana Prince',
-  },
-  {
-    id: 'CHAR022',
-    name: 'Peter Parker',
-  },
-  {
-    id: 'CHAR023',
-    name: 'Tony Stark',
-  },
-  {
-    id: 'CHAR024',
-    name: 'Steve Rogers',
-  },
-  {
-    id: 'CHAR025',
-    name: 'Sherlock Holmes',
-  },
-  {
-    id: 'CHAR026',
-    name: 'Dr. John Watson',
-  },
-  {
-    id: 'CHAR027',
-    name: 'Katniss Everdeen',
-  },
-  {
-    id: 'CHAR028',
-    name: 'James Bond',
-  },
-  {
-    id: 'CHAR029',
-    name: 'Indiana Jones',
-  },
-  {
-    id: 'CHAR030',
-    name: 'Ellen Ripley',
-  },
-  {
-    id: 'CHAR031',
-    name: 'Agent 47',
-  },
-  {
-    id: 'CHAR032',
-    name: 'Solid Snake',
-  },
-  {
-    id: 'CHAR033',
-    name: 'Cloud Strife',
-  },
-  {
-    id: 'CHAR034',
-    name: 'Adrian Fahrenheit Tepes',
-  },
-  {
-    id: 'CHAR035',
-    name: 'Ellie Williams',
-  },
-  {
-    id: 'CHAR036',
-    name: 'Joel Miller',
-  },
-  {
-    id: 'CHAR037',
-    name: 'Frodo Baggins',
-  },
-  {
-    id: 'CHAR038',
-    name: 'Bilbo Baggins',
-  },
-  {
-    id: 'CHAR039',
-    name: 'Lord Voldemort',
-  },
-  {
-    id: 'CHAR040',
-    name: 'Arthur Fleck',
-  },
+export const initialScouts = [
+  { id: 1, name: 'Harry Potter' },
+  { id: 2, name: 'Hermione Granger' },
+  { id: 3, name: 'Luke Skywalker' },
+  { id: 4, name: 'Darth Vader' },
+  { id: 5, name: 'Aragorn Elessar' },
+  { id: 6, name: 'Gandalf the Grey' },
+  { id: 7, name: 'Leia Organa' },
+  { id: 8, name: 'Jon Snow' },
+  { id: 9, name: 'Daenerys Targaryen' },
+  { id: 10, name: 'Geralt of Rivia' },
+  { id: 11, name: 'Master Chief Petty Officer John-117' },
+  { id: 12, name: 'Hercule Poirot' },
+  { id: 13, name: 'Miss Marple' },
+  { id: 14, name: 'Link Link' },
+  { id: 15, name: 'Princess Zelda' },
+  { id: 16, name: 'Kratos Atreus' },
+  { id: 17, name: 'Lara Croft' },
+  { id: 18, name: 'Ezio Auditore da Firenze' },
+  { id: 19, name: 'Bruce Wayne' },
+  { id: 20, name: 'Clark Kent' },
+  { id: 21, name: 'Diana Prince' },
+  { id: 22, name: 'Peter Parker' },
+  { id: 23, name: 'Tony Stark' },
+  { id: 24, name: 'Steve Rogers' },
+  { id: 25, name: 'Sherlock Holmes' },
+  { id: 26, name: 'Dr. John Watson' },
+  { id: 27, name: 'Katniss Everdeen' },
+  { id: 28, name: 'James Bond' },
+  { id: 29, name: 'Indiana Jones' },
+  { id: 30, name: 'Ellen Ripley' },
+  { id: 31, name: 'Agent 47' },
+  { id: 32, name: 'Solid Snake' },
+  { id: 33, name: 'Cloud Strife' },
+  { id: 34, name: 'Adrian Fahrenheit Tepes' },
+  { id: 35, name: 'Ellie Williams' },
+  { id: 36, name: 'Joel Miller' },
+  { id: 37, name: 'Frodo Baggins' },
+  { id: 38, name: 'Bilbo Baggins' },
+  { id: 39, name: 'Lord Voldemort' },
+  { id: 40, name: 'Arthur Fleck' },
 ];
