@@ -21,7 +21,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <Box as="footer" mb={2} textAlign="center" color="gray.600" fontSize="sm">
+    <Box as="footer" py={2} textAlign="center" color="gray.600" fontSize="sm">
       <Text fontSize='xs'>
         {randomMessage}
       </Text>

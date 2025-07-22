@@ -1,112 +1,84 @@
 import { Box, Flex, HStack, IconButton, useDisclosure, Stack, Button } from '@chakra-ui/react';
 import { X, Menu } from 'lucide-react';
 import { useCallback } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
-const FORM_LINK = "https://forms.gle/h3iK3nsHXhn5sVVXA";
+import Footer from './Footer';
 
-const Links = [
-  { name: 'Sobre', to: '/' },
-  { name: 'Ler QR Code', to: '/qr-code-reader' },
-  { name: 'Exemplos de QR Code', to: '/qr-code-exemples' },
-  { name: 'Lista de presença', to: '/lista-alunos' },
-  { name: 'Feedback do Teste', to: FORM_LINK, isExternal: true }
+const allLinks = [
+  { name: 'Início', to: '/' },
+  { name: 'Cadastrar', to: '/escoteiros-cadastro' },
+  { name: 'Listas anteriores', to: '/listas' },
+  { name: 'Lista de presença', to: '/listas/presenca' },
 ];
 
 const Layout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  const displayedLinks = isHomePage ? [] : allLinks;
 
   const handleLinkClick = useCallback(() => {
     // eslint-disable-next-line no-undef
     sessionStorage.removeItem('checkedItems');
     onClose();
-  }, [onClose])
+  }, [onClose]);
 
-  const renderExternalButtonLink = (link) => {
-    return (
-      <Button
-        key={link.to}
-        as="a"
-        href={link.to}
-        target="_blank"
-        rel="noopener noreferrer"
-        w="full"
-        variant="ghost"
-        colorScheme='white'
-        onClick={handleLinkClick}
-      >
+  const renderLink = (link) => (
+    <Link key={link.to} to={link.to}>
+      <Button w="full" variant="ghost" colorScheme='white' onClick={handleLinkClick}>
         {link.name}
       </Button>
-    )
-  }
+    </Link>
+  );
 
-  const renderLink = (link) => {
-    if (link.isExternal) return renderExternalButtonLink(link)
-    return (
-      <Link key={link.to} to={link.to}>
-        <Button w="full" variant="ghost" colorScheme='white' onClick={handleLinkClick}>
-          {link.name}
-        </Button>
-      </Link>
-    )
-  }
+  const navLinks = displayedLinks.map(link => renderLink(link));
 
-
-  const renderLinks = () => {
-    return (
-      Links.map(link => {
-        return renderLink(link);
-      })
-    )
-  }
-
-  const renderOpenMenu = () => {
-    if (!isOpen) return null;
-
-    return (
-      <Box pb={4} display={{ md: 'none' }}>
-        <Stack as="nav" spacing={4}>
-          {Links.map(link => (
-            <Link key={link.to} to={link.to}>
-              <Button w="full" variant="ghost" onClick={handleLinkClick} colorScheme='white'>
-                {link.name}
-              </Button>
-            </Link>
-          ))}
-        </Stack>
-      </Box>
-    )
-  }
+  const mobileMenu = !isHomePage && isOpen && (
+    <Box pb={4} display={{ md: 'none' }}>
+      <Stack as="nav" spacing={4}>
+        {navLinks}
+      </Stack>
+    </Box>
+  );
 
   return (
-    <>
+    <Flex direction="column" minH="100vh">
       <Box bg='teal' color='white' px={4} boxShadow="sm" position="sticky" top={0} zIndex={10}>
-        <Flex h={16} alignItems="center" justifyContent="space-between">
-          <IconButton
-            size="md"
-            variant='link'
-            colorScheme='white'
-            icon={isOpen ? <X /> : <Menu />}
-            aria-label="Abrir menu"
-            display={{ md: 'none' }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-          <HStack spacing={8} alignItems="center">
-            <Box fontWeight="bold">Teste A/B</Box>
-            <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-              {renderLinks()}
+        {isHomePage ? (
+          <Flex h={16} w="full" alignItems="center" justifyContent={{ base: 'flex-start', sm: 'center' }}>
+            <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+          </Flex>
+        ) : (
+          <Flex h={16} alignItems="center" justifyContent="space-between">
+            <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+            <HStack spacing={4}>
+              <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
+                {navLinks}
+              </HStack>
+              <IconButton
+                size="md"
+                variant='link'
+                colorScheme='white'
+                icon={isOpen ? <X /> : <Menu />}
+                aria-label="Abrir menu"
+                display={{ base: 'flex', md: 'none' }}
+                onClick={isOpen ? onClose : onOpen}
+              />
             </HStack>
-          </HStack>
-        </Flex>
-
-        {renderOpenMenu()}
+          </Flex>
+        )}
+        {mobileMenu}
       </Box>
 
-      <Box p={4}>
+      <Box as="main" flex="1" overflowY="auto" >
         <Outlet />
       </Box>
-    </>
+
+      <Footer />
+    </Flex>
   );
-}
+};
 
 export default Layout;

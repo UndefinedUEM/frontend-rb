@@ -6,7 +6,7 @@ import Footer from './Footer';
 const PageLayout = ({ children }) => {
   return (
     <Flex direction="column" minH="100vh">
-      <Box flex="1">
+      <Box flex="1" overflowY="auto">
         {children}
       </Box>
       <Footer />

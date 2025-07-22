@@ -12,9 +12,9 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/qr-code-exemples" element={<QRCodeExamplesPage />} />
-        <Route path="/qr-code-reader" element={<QRCodeReaderPage />} />
-        <Route path="/lista-alunos" element={<StudentListPage />} />
+        <Route path="/listas" element={<QRCodeExamplesPage />} />
+        <Route path="/escoteiros/cadastro" element={<QRCodeReaderPage />} />
+        <Route path="/listas/presenca" element={<StudentListPage />} />
         <Route path="/feedback" element={<FeedBackPage />} />
       </Route>
     </Routes>
