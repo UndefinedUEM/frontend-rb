@@ -42,7 +42,7 @@ const AttendanceListPage = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleContinue = () => {
     const presentScouts = scouts.filter(scout => presentScoutIds.has(scout.id));
     
     if (presentScoutIds.size === 0) {
@@ -57,7 +57,7 @@ const AttendanceListPage = () => {
       return;
     }
 
-    navigate('/lista/presenca/resumo', { state: { presentScouts } });
+    navigate('/listas/presenca/resumo', { state: { presentScouts } });
   };
 
   const isAllSelected = presentScoutIds.size > 0 && presentScoutIds.size === scouts.length;
@@ -113,8 +113,8 @@ const AttendanceListPage = () => {
           ))}
         </VStack>
         
-        <Button colorScheme="teal" size="lg" onClick={handleSubmit}>
-          Confirmar Presenças
+        <Button colorScheme="teal" size="lg" onClick={handleContinue}>
+          Continuar
         </Button>
       </VStack>
     </Container>

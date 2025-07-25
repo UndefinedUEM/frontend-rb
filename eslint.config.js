@@ -33,6 +33,10 @@ export default [
       'jsx-a11y': jsxA11y,
       import: importPlugin,
     },
+    env: {
+      browser: true, 
+      es2020: true,
+    },
     settings: {
       react: {
         version: 'detect',

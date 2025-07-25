@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 import AttendanceListPage from './pages/AttendanceListPage';
 import AttendanceSummaryPage from './pages/AttendanceSummaryPage';
 import HomePage from './pages/HomePage';
@@ -12,15 +13,19 @@ import UserRegistrationPage from './pages/UserRegistrationPage';
 function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
+      <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
+
+      <Route element={
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      }>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/cadastro" element={<UserRegistrationPage />} /> */}
-        <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
         <Route path="/cadastro/escoteiros" element={<ScoutRegistrationPage />} />
         <Route path="/listas/presenca" element={<AttendanceListPage />} />
-        <Route path="/lista/presenca/resumo" element={<AttendanceSummaryPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
+        <Route path="/listas/presenca/resumo" element={<AttendanceSummaryPage />} />
       </Route>
     </Routes>
   );

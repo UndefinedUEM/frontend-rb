@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Box,
   Button,
@@ -18,9 +19,11 @@ import {
 } from '@chakra-ui/react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -50,14 +53,8 @@ const LoginPage = () => {
 
     setTimeout(() => {
       if (email === 'teste@teste.com' && password === '123456') {
-        toast({
-          title: 'Login realizado com sucesso!',
-          description: 'Bem-vindo(a) de volta!',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top',
-        });
+        login();
+        navigate('/');
       } else {
         toast({
           title: 'Erro no login.',
