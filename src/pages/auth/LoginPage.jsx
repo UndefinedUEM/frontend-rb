@@ -1,3 +1,7 @@
+import { useAuth } from '@/contexts/AuthContext';
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
+import useToast from '@/hooks/useCustomToast';
 import {
   Box,
   Button,
@@ -7,7 +11,6 @@ import {
   Heading,
   Input,
   VStack,
-  useToast,
   InputGroup,
   InputRightElement,
   IconButton,
@@ -19,10 +22,6 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-
-import { useAuth } from '../contexts/AuthContext';
-import useAsync from '../hooks/useAsync';
-import scoutApi from '../services/scoutApi';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -40,6 +39,7 @@ const LoginPage = () => {
       login();
       navigate('/');
     } catch (error) {
+      console.log({error})
       toast({
         title: 'Erro no login.',
         description: error.message,

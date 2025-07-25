@@ -18,9 +18,9 @@ import { ListChecks } from 'lucide-react';
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import SaveDraftModal from '../../components/SaveDraftModal';
-import useAsync from '../../hooks/useAsync';
-import scoutApi from '../../services/scoutApi';
+import SaveDraftModal from '@/components/SaveDraftModal';
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 
 const AttendanceSummaryPage = () => {
   const location = useLocation();

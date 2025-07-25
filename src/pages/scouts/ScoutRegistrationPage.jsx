@@ -1,3 +1,5 @@
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 import {
   Box,
   Button,
@@ -12,9 +14,6 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useAsync from '../../hooks/useAsync';
-import scoutApi from '../../services/scoutApi';
-
 const ScoutRegistrationPage = () => {
   const [name, setName] = useState('');
   const [scoutId, setScoutId] = useState('');
@@ -24,7 +23,7 @@ const ScoutRegistrationPage = () => {
   const { call: handleRegister, loading: isLoading } = useAsync(async () => {
     try {
       await scoutApi.registerScout({ name, id: scoutId });
-      
+
       toast({
         title: 'Cadastro realizado!',
         description: `O escoteiro ${name} foi cadastrado com sucesso.`,

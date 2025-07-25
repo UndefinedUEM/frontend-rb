@@ -1,3 +1,5 @@
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 import {
   Box,
   Button,
@@ -15,9 +17,6 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import useAsync from '../hooks/useAsync';
-import scoutApi from '../services/scoutApi';
 
 const UserRegistrationPage = () => {
   const [name, setName] = useState('');

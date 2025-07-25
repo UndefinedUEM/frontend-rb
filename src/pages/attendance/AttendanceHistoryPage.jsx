@@ -17,10 +17,10 @@ import {
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import AttendanceCard from '../../components/AttendanceCard';
-import ConfirmationModal from '../../components/ConfirmationModal';
-import useAsync from '../../hooks/useAsync';
-import scoutApi from '../../services/scoutApi';
+import AttendanceCard from '@/components/AttendanceCard';
+import ConfirmationModal from '@/components/ConfirmationModal';
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 
 const AttendanceHistoryPage = () => {
   const [apiLists, setApiLists] = useState([]);
@@ -43,7 +43,7 @@ const AttendanceHistoryPage = () => {
     fetchLists();
   }, [fetchLists, refreshTrigger]);
 
-  const { call: handleConfirm, loading: isConfirming } = useAsync(async (list) => {
+  const { call: handleConfirm } = useAsync(async (list) => {
     try {
       const presentIds = list.confirmedScouts.map(scout => scout.id);
       await scoutApi.confirmList(presentIds);
@@ -90,50 +90,59 @@ const AttendanceHistoryPage = () => {
       status: 'inProgress',
     };
     return [inProgressList, ...apiLists];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiLists, refreshTrigger]);
 
-  if (isLoading && apiLists.length === 0) {
-    return (
-      <Flex justify="center" align="center" minH="60vh">
-        <Spinner size="xl" color="teal.500" />
-      </Flex>
-    );
-  }
+  const renderContent = () => {
+    if (isLoading && apiLists.length === 0) {
+      return (
+        <Flex justify="center" align="center" minH="60vh">
+          <Spinner size="xl" color="teal.500" />
+        </Flex>
+      );
+    }
 
-  if (error) {
+    if (error) {
+      return (
+        <Container maxW="container.md" py={12}>
+          <Alert status="error" borderRadius="md">
+            <AlertIcon /><Box><AlertTitle>Ocorreu um Erro</AlertTitle><AlertDescription>{error}</AlertDescription></Box>
+          </Alert>
+        </Container>
+      );
+    }
+
+    if (allLists.length === 0) {
+      return (
+        <Box textAlign="center" p={8} borderWidth="1px" borderRadius="md" borderStyle="dashed">
+          <Text fontSize="lg" color="gray.500">Nenhuma lista de presença foi encontrada.</Text>
+        </Box>
+      );
+    }
+
     return (
-      <Container maxW="container.md" py={12}>
-        <Alert status="error" borderRadius="md">
-          <AlertIcon /><Box><AlertTitle>Ocorreu um Erro</AlertTitle><AlertDescription>{error}</AlertDescription></Box>
-        </Alert>
-      </Container>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+        {allLists.map((list) => (
+          <AttendanceCard
+            key={list.id}
+            listData={list}
+            status={list.status}
+            onCardClick={() => handleCardClick(list)}
+            onEdit={handleEdit}
+            onDelete={onDeleteModalOpen}
+            onConfirm={() => handleConfirm(list)}
+          />
+        ))}
+      </SimpleGrid>
     );
-  }
+  };
 
   return (
     <>
       <Container maxW="container.xl" py={{ base: '8', md: '12' }}>
         <VStack spacing={8} align="stretch">
           <Heading as="h1" size="xl" textAlign="center">Histórico de Listas</Heading>
-          {allLists.length > 0 ? (
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-              {allLists.map((list) => (
-                <AttendanceCard
-                  key={list.id}
-                  listData={list}
-                  status={list.status}
-                  onCardClick={() => handleCardClick(list)}
-                  onEdit={handleEdit}
-                  onDelete={onDeleteModalOpen}
-                  onConfirm={() => handleConfirm(list)}
-                />
-              ))}
-            </SimpleGrid>
-          ) : (
-            <Box textAlign="center" p={8} borderWidth="1px" borderRadius="md" borderStyle="dashed">
-              <Text fontSize="lg" color="gray.500">Nenhuma lista de presença foi encontrada.</Text>
-            </Box>
-          )}
+          {renderContent()}
         </VStack>
       </Container>
       <ConfirmationModal

@@ -1,6 +1,5 @@
+import GenericFeedbackPage from '@/components/GenericFeedbackPage';
 import { useNavigate } from 'react-router-dom';
-
-import GenericFeedbackPage from '../../components/GenericFeedbackPage';
 
 const ScoutRegistrationSuccessPage = () => {
   const navigate = useNavigate();

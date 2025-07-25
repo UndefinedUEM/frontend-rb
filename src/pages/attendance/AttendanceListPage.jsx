@@ -18,8 +18,8 @@ import {
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useAsync from '../../hooks/useAsync';
-import scoutApi from '../../services/scoutApi';
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 
 const AttendanceListPage = () => {
   const [scouts, setScouts] = useState([]);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorHandler } from './errorHandler';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -11,23 +12,6 @@ api.interceptors.request.use(async (config) => {
   }
   return config;
 });
-
-const errorHandler = (error) => {
-  if (error.response) {
-    const { status } = error.response;
-    switch (status) {
-      case 401:
-        return 'Credenciais inválidas ou token expirado.';
-      case 403:
-        return 'Você não tem permissão para executar esta ação.';
-      case 404:
-        return 'O recurso solicitado não foi encontrado.';
-      default:
-        return error.response.data?.message || 'Ocorreu um erro inesperado.';
-    }
-  }
-  return 'Não foi possível conectar ao servidor. Verifique sua rede.';
-};
 
 /**
  * @typedef {object} UserData
@@ -52,11 +36,11 @@ const scoutApi = {
   login: async (email, password) => {
     try {
       const response = await api.post('/auth/login', { email, password });
-      const { token, user } = response.data;
-      if (token) {
-        localStorage.setItem('authToken', token);
+      const { access_token } = response.data;
+      if (access_token) {
+        localStorage.setItem('authToken', access_token);
       }
-      return { user, token };
+      return response.data;
     } catch (error) {
       throw new Error(errorHandler(error));
     }

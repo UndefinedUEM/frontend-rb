@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import GenericFeedbackPage from '../../components/GenericFeedbackPage';
+import GenericFeedbackPage from '@/components/GenericFeedbackPage';
 
 const AttendanceSuccessPage = () => {
   const navigate = useNavigate();
