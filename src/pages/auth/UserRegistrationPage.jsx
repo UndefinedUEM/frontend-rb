@@ -14,6 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import useAsync from '../hooks/useAsync';
+import scoutApi from '../services/scoutApi';
 
 const UserRegistrationPage = () => {
   const [name, setName] = useState('');
@@ -22,10 +26,36 @@ const UserRegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const { call: handleRegister, loading: isLoading } = useAsync(async () => {
+    try {
+      await scoutApi.registerUser({ name, email, password });
+
+      toast({
+        title: 'Cadastro realizado com sucesso!',
+        description: 'Você será redirecionado para a página de login.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+
+      navigate('/login');
+    } catch (error) {
+      toast({
+        title: 'Erro no cadastro.',
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+  }, [name, email, password, navigate, toast]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,28 +108,7 @@ const UserRegistrationPage = () => {
       return;
     }
 
-    setIsLoading(true);
-
-    console.log('Enviando dados do novo usuário:', { name, email });
-
-    setTimeout(() => {
-      toast({
-        title: 'Usuário cadastrado!',
-        description: `${name}, seu cadastro foi realizado com sucesso.`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      });
-
-      setName('');
-      setEmail('');
-      setConfirmEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setShowPassword(false);
-      setIsLoading(false);
-    }, 2000);
+    handleRegister();
   };
 
   return (
@@ -123,7 +132,6 @@ const UserRegistrationPage = () => {
               placeholder="Digite seu nome completo"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              variant="flushed"
             />
           </FormControl>
 
@@ -135,7 +143,6 @@ const UserRegistrationPage = () => {
               placeholder="seu.email@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              variant="flushed"
             />
           </FormControl>
 
@@ -147,7 +154,6 @@ const UserRegistrationPage = () => {
               placeholder="Digite seu e-mail novamente"
               value={confirmEmail}
               onChange={(e) => setConfirmEmail(e.target.value)}
-              variant="flushed"
             />
           </FormControl>
 
@@ -160,7 +166,6 @@ const UserRegistrationPage = () => {
                 placeholder="Crie uma senha (mín. 6 caracteres)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                variant="flushed"
               />
               <InputRightElement>
                 <IconButton
@@ -182,7 +187,6 @@ const UserRegistrationPage = () => {
               placeholder="Digite sua senha novamente"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              variant="flushed"
             />
           </FormControl>
 
@@ -192,7 +196,6 @@ const UserRegistrationPage = () => {
             size="lg"
             width="full"
             isLoading={isLoading}
-            isDisabled={!name || !email || !confirmEmail || !password || !confirmPassword}
           >
             Confirmar Cadastro
           </Button>

@@ -24,7 +24,7 @@ const Layout = () => {
   const displayedLinks = isHomePage ? [] : allLinks;
 
   const handleLinkClick = useCallback(() => {
-    // eslint-disable-next-line no-undef
+     
     sessionStorage.removeItem('checkedItems');
     onClose();
   }, [onClose]);

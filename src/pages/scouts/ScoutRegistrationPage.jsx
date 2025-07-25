@@ -10,16 +10,45 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import useAsync from '../../hooks/useAsync';
+import scoutApi from '../../services/scoutApi';
 
 const ScoutRegistrationPage = () => {
   const [name, setName] = useState('');
   const [scoutId, setScoutId] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
+
+  const { call: handleRegister, loading: isLoading } = useAsync(async () => {
+    try {
+      await scoutApi.registerScout({ name, id: scoutId });
+      
+      toast({
+        title: 'Cadastro realizado!',
+        description: `O escoteiro ${name} foi cadastrado com sucesso.`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+
+      navigate('/cadastro/escoteiros/sucesso');
+    } catch (error) {
+      toast({
+        title: 'Erro no cadastro.',
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+  }, [name, scoutId, navigate, toast]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (!name || !scoutId) {
       toast({
         title: 'Campos obrigatórios.',
@@ -31,25 +60,7 @@ const ScoutRegistrationPage = () => {
       });
       return;
     }
-
-    setIsLoading(true);
-
-    console.log('Enviando dados para a API:', { name, id: scoutId });
-
-    setTimeout(() => {
-      toast({
-        title: 'Cadastro realizado!',
-        description: `O escoteiro ${name} foi cadastrado com sucesso.`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      });
-      
-      setName('');
-      setScoutId('');
-      setIsLoading(false);
-    }, 1500);
+    handleRegister();
   };
 
   return (
@@ -92,8 +103,8 @@ const ScoutRegistrationPage = () => {
             colorScheme="teal"
             size="lg"
             width="full"
-            isDisabled={!name || !scoutId}
             isLoading={isLoading}
+            isDisabled={!name || !scoutId}
           >
             Cadastrar
           </Button>

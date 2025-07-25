@@ -1,14 +1,9 @@
-/* eslint-disable no-unused-vars */
-import { readFileSync } from 'fs';
-
 import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-
-const isReact = (filename) =>
-  filename.endsWith('.jsx') || filename.endsWith('.js');
+import globals from 'globals';
 
 export default [
   {
@@ -17,14 +12,14 @@ export default [
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: { jsx: true },
       },
       globals: {
-        window: 'readonly',
-        document: 'readonly',
+        ...globals.browser,
+        ...globals.node,
       },
     },
     plugins: {
@@ -32,10 +27,6 @@ export default [
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       import: importPlugin,
-    },
-    env: {
-      browser: true, 
-      es2020: true,
     },
     settings: {
       react: {
@@ -47,9 +38,9 @@ export default [
         },
         alias: {
           map: [
-            ['@', './src'], // Mapeia '@' para o diretório 'src'
+            ['@', './src'],
           ],
-          extensions: ['.js', '.jsx'], // Inclua .ts e .tsx se usar TypeScript
+          extensions: ['.js', '.jsx'],
         },
       },
     },
@@ -60,7 +51,7 @@ export default [
       ...jsxA11y.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
 
-      'react/react-in-jsx-scope': 'off', // React 17+
+      'react/react-in-jsx-scope': 'off',
       'import/no-unresolved': 'off',
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'import/order': [

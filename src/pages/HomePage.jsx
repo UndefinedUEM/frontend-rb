@@ -1,4 +1,3 @@
-import ActionCard from '@/components/ActionCard';
 import {
   Box,
   Heading,
@@ -7,6 +6,8 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { History, UserPlus, ListPlus } from 'lucide-react';
+
+import ActionCard from '@/components/ActionCard';
 
 const HomePage = () => {
   return (

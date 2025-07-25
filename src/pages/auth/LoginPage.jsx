@@ -1,4 +1,3 @@
-import { useAuth } from '@/contexts/AuthContext';
 import {
   Box,
   Button,
@@ -21,20 +20,39 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../contexts/AuthContext';
+import useAsync from '../hooks/useAsync';
+import scoutApi from '../services/scoutApi';
+
 const LoginPage = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
 
+  const { call: handleLogin, loading: isLoading } = useAsync(async () => {
+    try {
+      await scoutApi.login(email, password);
+      login();
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: 'Erro no login.',
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+  }, [email, password, login, navigate, toast]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (!email || !password) {
       toast({
         title: 'Campos obrigatórios.',
@@ -46,27 +64,7 @@ const LoginPage = () => {
       });
       return;
     }
-
-    setIsLoading(true);
-
-    console.log('Tentativa de login com:', { email, password });
-
-    setTimeout(() => {
-      if (email === 'teste@teste.com' && password === '123456') {
-        login();
-        navigate('/');
-      } else {
-        toast({
-          title: 'Erro no login.',
-          description: 'E-mail ou senha inválidos. Tente novamente.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top',
-        });
-      }
-      setIsLoading(false);
-    }, 1500);
+    handleLogin();
   };
 
   return (
@@ -115,7 +113,7 @@ const LoginPage = () => {
               </InputRightElement>
             </InputGroup>
           </FormControl>
-          
+
           <Stack direction="row" justify="flex-end" align="center">
             <Link as={RouterLink} to="/recuperar-senha" color="teal.500" fontSize="sm">
               Esqueceu a senha?
