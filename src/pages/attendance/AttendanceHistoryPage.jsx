@@ -65,13 +65,13 @@ const AttendanceHistoryPage = () => {
   };
 
   const handleEdit = useCallback(() => {
-    navigate('/listas/presenca');
+    navigate('/listas/presenca', { state: { mode: 'edit' } });
   }, [navigate]);
 
   const handleCardClick = useCallback((list) => {
     if (list.status === 'inProgress') {
       const presentScouts = list.confirmedScouts;
-      navigate('/listas/presenca/resumo', { state: { presentScouts } });
+      navigate('/listas/presenca/resumo', { state: { presentScouts, source: 'history' } });
     } else {
       navigate(`/listas/detalhes/${list.id}`, { state: { listData: list } });
     }

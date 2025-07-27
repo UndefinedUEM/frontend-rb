@@ -17,17 +17,19 @@ import {
 import { ListChecks } from 'lucide-react';
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import SaveDraftModal from '@/components/SaveDraftModal';
 import useAsync from '@/hooks/useAsync';
 import scoutApi from '@/services/scoutApi';
+import SaveDraftModal from '@/components/SaveDraftModal';
 
 const AttendanceSummaryPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
   const presentScouts = location.state?.presentScouts || [];
+  const source = location.state?.source;
+  const isFromHistory = source === 'history';
 
   const formattedDate = new Date().toLocaleDateString('pt-BR', {
     day: '2-digit',
@@ -43,7 +45,8 @@ const AttendanceSummaryPage = () => {
   const { call: handleFinalize, loading: isFinalizing } = useAsync(async () => {
     try {
       const presentIds = presentScouts.map(scout => scout.id);
-      await scoutApi.confirmList(presentIds);
+      const payload = { scoutIds: presentIds };
+      await scoutApi.confirmList(payload);
 
       toast({
         title: 'Presença confirmada!',
@@ -69,9 +72,9 @@ const AttendanceSummaryPage = () => {
     }
   }, [presentScouts, navigate, toast]);
 
-  const handleGoBack = useCallback(() => {
-    onOpen();
-  }, [onOpen]);
+  const handleEdit = useCallback(() => {
+    navigate('/listas/presenca');
+  }, [navigate]);
 
   const handleDiscardAndExit = () => {
     clearInProgressList();
@@ -79,7 +82,59 @@ const AttendanceSummaryPage = () => {
   };
 
   const handleSaveAndExit = () => {
-    navigate('/');
+    navigate('/listas/historico');
+  };
+
+  const renderButtons = () => {
+    if (isFromHistory) {
+      return (
+        <VStack spacing={4}>
+          <Button
+            colorScheme="teal"
+            onClick={handleFinalize}
+            w="full"
+            size="lg"
+            isLoading={isFinalizing}
+          >
+            Confirmar
+          </Button>
+          <Button
+            colorScheme="gray"
+            variant="ghost"
+            onClick={handleEdit}
+            w="full"
+            size="lg"
+            isDisabled={isFinalizing}
+          >
+            Editar
+          </Button>
+        </VStack>
+      );
+    }
+
+    return (
+      <VStack spacing={4}>
+        <Button
+          colorScheme="teal"
+          onClick={handleFinalize}
+          w="full"
+          size="lg"
+          isLoading={isFinalizing}
+        >
+          Confirmar e salvar lista
+        </Button>
+        <Button
+          colorScheme="gray"
+          variant="ghost"
+          onClick={onOpen}
+          w="full"
+          size="lg"
+          isDisabled={isFinalizing}
+        >
+          Sair sem salvar
+        </Button>
+      </VStack>
+    );
   };
 
   return (
@@ -116,28 +171,9 @@ const AttendanceSummaryPage = () => {
               </Tfoot>
             </Table>
           </Box>
+          
+          {renderButtons()}
 
-          <VStack spacing={4}>
-            <Button
-              colorScheme="teal"
-              onClick={handleFinalize}
-              w="full"
-              size="lg"
-              isLoading={isFinalizing}
-            >
-              Confirmar
-            </Button>
-            <Button
-              colorScheme="gray"
-              variant="ghost"
-              onClick={handleGoBack}
-              w="full"
-              size="lg"
-              isDisabled={isFinalizing}
-            >
-              Sair sem Salvar
-            </Button>
-          </VStack>
         </VStack>
       </Container>
 

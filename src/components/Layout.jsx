@@ -8,12 +8,8 @@ import Footer from './Footer';
 const allLinks = [
   { name: 'Início', to: '/' },
   { name: 'Cadastrar', to: '/cadastro/escoteiros' },
-  { name: 'Listas anteriores', to: '/listas' },
+  { name: 'Listas anteriores', to: '/listas/historico' },
   { name: 'Lista de presença', to: '/listas/presenca' },
-  { name: 'Login', to: '/login' },
-  { name: 'Cadastrar usuário', to: '/cadastro/usuario' },
-  { name: 'senha', to: '/recuperar-senha' },
-
 ];
 
 const Layout = () => {

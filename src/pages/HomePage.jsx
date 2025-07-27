@@ -52,7 +52,7 @@ const HomePage = () => {
               title="Listas anteriores"
               text="Acesse as listas de presença de eventos passados"
               buttonText="Acessar Listas"
-              href="/listas"
+              href="/listas/historico"
             />
           </Box>
           <Box width={{ base: '90%', sm: '80%', md: '320px' }}>

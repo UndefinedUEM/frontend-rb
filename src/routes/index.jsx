@@ -18,7 +18,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
+      {/* <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} /> */}
       <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
 
       <Route 

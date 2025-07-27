@@ -35,11 +35,17 @@ const LoginPage = () => {
 
   const { call: handleLogin, loading: isLoading } = useAsync(async () => {
     try {
-      await scoutApi.login(email, password);
-      login();
-      navigate('/');
+      const response = await scoutApi.login(email, password);
+      const token = response.access_token;
+      console.log({token})
+      if (token) {
+        login(token);
+        navigate('/');
+      } else {
+        throw new Error('Token não encontrado na resposta da API.');
+      }
     } catch (error) {
-      console.log({error})
+      console.log({ error })
       toast({
         title: 'Erro no login.',
         description: error.message,
@@ -114,11 +120,11 @@ const LoginPage = () => {
             </InputGroup>
           </FormControl>
 
-          <Stack direction="row" justify="flex-end" align="center">
+          {/* <Stack direction="row" justify="flex-end" align="center">
             <Link as={RouterLink} to="/recuperar-senha" color="teal.500" fontSize="sm">
               Esqueceu a senha?
             </Link>
-          </Stack>
+          </Stack> */}
 
           <Button
             type="submit"

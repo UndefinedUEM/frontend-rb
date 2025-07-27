@@ -1,5 +1,5 @@
-import useAsync from '@/hooks/useAsync';
-import scoutApi from '@/services/scoutApi';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -11,8 +11,8 @@ import {
   VStack,
   useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import useAsync from '@/hooks/useAsync';
+import scoutApi from '@/services/scoutApi';
 
 const ScoutRegistrationPage = () => {
   const [name, setName] = useState('');
@@ -22,8 +22,9 @@ const ScoutRegistrationPage = () => {
 
   const { call: handleRegister, loading: isLoading } = useAsync(async () => {
     try {
-      await scoutApi.registerScout({ name, id: scoutId });
-
+      const scoutData = { name, id: Number(scoutId) };
+      await scoutApi.registerScout(scoutData);
+      
       toast({
         title: 'Cadastro realizado!',
         description: `O escoteiro ${name} foi cadastrado com sucesso.`,
@@ -48,17 +49,6 @@ const ScoutRegistrationPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!name || !scoutId) {
-      toast({
-        title: 'Campos obrigatórios.',
-        description: 'Por favor, preencha o nome e o ID.',
-        status: 'warning',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      });
-      return;
-    }
     handleRegister();
   };
 
