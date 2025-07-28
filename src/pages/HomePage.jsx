@@ -1,4 +1,3 @@
-import ActionCard from '@/components/ActionCard';
 import {
   Box,
   Heading,
@@ -8,7 +7,19 @@ import {
 } from '@chakra-ui/react';
 import { History, UserPlus, ListPlus } from 'lucide-react';
 
+import ActionCard from '@/components/ActionCard';
+import { useAuth } from '@/contexts/AuthContext';
+
 const HomePage = () => {
+  const { user } = useAuth();
+
+  const getFirstName = (fullName) => {
+    if (!fullName) return '';
+    return fullName.split(' ')[0];
+  };
+
+  const firstName = getFirstName(user?.name);
+
   return (
     <Box p={4}>
       <Container maxW="container.lg" textAlign="center">
@@ -21,7 +32,7 @@ const HomePage = () => {
           Sempre Alerta para Servir!
         </Heading>
         <Text fontSize={{ base: 'lg', md: 'xl' }} color='gray.600' mb={8}>
-          Olá Fulano! Bem-vindo ao sistema de presença do grupo. Use os atalhos abaixo para criar uma nova lista de chamada ou consultar o histórico de eventos.
+          Olá {firstName}! Bem-vindo ao sistema de presença do grupo. Use os atalhos abaixo para criar uma nova lista de chamada ou consultar o histórico de eventos.
         </Text>
       </Container>
 
@@ -51,7 +62,7 @@ const HomePage = () => {
               title="Listas anteriores"
               text="Acesse as listas de presença de eventos passados"
               buttonText="Acessar Listas"
-              href="/listas"
+              href="/listas/historico"
             />
           </Box>
           <Box width={{ base: '90%', sm: '80%', md: '320px' }}>

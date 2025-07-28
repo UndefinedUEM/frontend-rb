@@ -1,4 +1,3 @@
-// Em main.jsx ou App.jsx
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';

@@ -15,4 +15,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'), // <--- Adicione esta seção
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './vitest.setup.js',
+  },
 });
