@@ -1,7 +1,5 @@
-import { useAuth } from '@/contexts/AuthContext';
-import useAsync from '@/hooks/useAsync';
-import scoutApi from '@/services/scoutApi';
-import useToast from '@/hooks/useCustomToast';
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -11,6 +9,7 @@ import {
   Heading,
   Input,
   VStack,
+  useToast,
   InputGroup,
   InputRightElement,
   IconButton,
@@ -20,8 +19,9 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import scoutApi from '@/services/scoutApi';
+import useAsync from '@/hooks/useAsync';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -35,17 +35,11 @@ const LoginPage = () => {
 
   const { call: handleLogin, loading: isLoading } = useAsync(async () => {
     try {
-      const response = await scoutApi.login(email, password);
-      const token = response.access_token;
-      console.log({token})
-      if (token) {
-        login(token);
-        navigate('/');
-      } else {
-        throw new Error('Token não encontrado na resposta da API.');
-      }
+      await scoutApi.login(email, password);
+      const userData = await scoutApi.getUserData();
+      login(userData);
+      navigate('/');
     } catch (error) {
-      console.log({ error })
       toast({
         title: 'Erro no login.',
         description: error.message,
@@ -86,7 +80,6 @@ const LoginPage = () => {
           <Heading as="h1" size="lg" textAlign="center">
             Entrar
           </Heading>
-
           <FormControl isRequired>
             <FormLabel htmlFor="email">E-mail</FormLabel>
             <Input
@@ -97,7 +90,6 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
-
           <FormControl isRequired>
             <FormLabel htmlFor="password">Senha</FormLabel>
             <InputGroup>
@@ -119,13 +111,11 @@ const LoginPage = () => {
               </InputRightElement>
             </InputGroup>
           </FormControl>
-
-          {/* <Stack direction="row" justify="flex-end" align="center">
+          <Stack direction="row" justify="flex-end" align="center">
             <Link as={RouterLink} to="/recuperar-senha" color="teal.500" fontSize="sm">
               Esqueceu a senha?
             </Link>
-          </Stack> */}
-
+          </Stack>
           <Button
             type="submit"
             colorScheme="teal"
@@ -135,7 +125,6 @@ const LoginPage = () => {
           >
             Entrar
           </Button>
-
           <Flex justify="center">
             <Text fontSize="sm">
               Não tem uma conta?{' '}

@@ -115,6 +115,19 @@ const scoutApi = {
       throw new Error(errorHandler(error));
     }
   },
+
+   /**
+   * Busca os dados do usuário.
+   * @returns {Promise<any>} id, nome e e-mail do usuário logado.
+   */
+  getUserData: async () => {
+    try {
+      const response = await api.get('/auth/userData');
+      return response.data;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  },
 };
 
 export default scoutApi;
