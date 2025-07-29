@@ -102,7 +102,7 @@ const Layout = () => {
               justifyContent={{ base: 'flex-start', sm: 'center' }}
               position="relative"
             >
-              <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+              <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
               <IconButton
                 aria-label="Sair"
                 icon={<LogOut size={20} />}
@@ -116,7 +116,7 @@ const Layout = () => {
             </Flex>
           ) : (
             <Flex h={16} alignItems="center" justifyContent="space-between">
-              <Link to="/"><Box fontWeight="bold">Aki</Box></Link>
+              <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
               <HStack spacing={4}>
                 <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
                   {navLinks}
