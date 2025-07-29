@@ -121,7 +121,7 @@ const AttendanceSummaryPage = () => {
           size="lg"
           isLoading={isFinalizing}
         >
-          Confirmar e salvar lista
+          Salvar lista
         </Button>
         <Button
           colorScheme="gray"
