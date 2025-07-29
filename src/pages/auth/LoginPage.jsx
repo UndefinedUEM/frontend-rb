@@ -111,11 +111,11 @@ const LoginPage = () => {
               </InputRightElement>
             </InputGroup>
           </FormControl>
-          <Stack direction="row" justify="flex-end" align="center">
+          {/* <Stack direction="row" justify="flex-end" align="center">
             <Link as={RouterLink} to="/recuperar-senha" color="teal.500" fontSize="sm">
               Esqueceu a senha?
             </Link>
-          </Stack>
+          </Stack> */}
           <Button
             type="submit"
             colorScheme="teal"

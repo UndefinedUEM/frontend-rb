@@ -32,7 +32,7 @@ const HomePage = () => {
           Sempre Alerta para Servir!
         </Heading>
         <Text fontSize={{ base: 'lg', md: 'xl' }} color='gray.600' mb={8}>
-          Olá {firstName}! Bem-vindo ao sistema de presença do grupo. Use os atalhos abaixo para criar uma nova lista de chamada ou consultar o histórico de eventos.
+          Olá {firstName}! Bem-vindo ao sistema de presença do grupo. Use os atalhos abaixo para cadastrar um novo escoteiro, criar uma nova lista de chamada ou consultar o histórico de eventos.
         </Text>
       </Container>
 
