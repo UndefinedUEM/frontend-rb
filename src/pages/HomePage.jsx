@@ -9,9 +9,11 @@ import { History, UserPlus, ListPlus } from 'lucide-react';
 
 import ActionCard from '@/components/ActionCard';
 import { useAuth } from '@/contexts/AuthContext';
+import { useDraftConfirmation } from '@/context/DraftConfirmationContext';
 
 const HomePage = () => {
   const { user } = useAuth();
+  const { checkDraftAndNavigate } = useDraftConfirmation();
 
   const getFirstName = (fullName) => {
     if (!fullName) return '';
@@ -71,7 +73,7 @@ const HomePage = () => {
               title="Lista de presença"
               text="Cadastre uma nova lista de presença para uma atividade"
               buttonText="Registrar presença"
-              href="/listas/presenca"
+              onClick={checkDraftAndNavigate}
             />
           </Box>
         </Flex>
