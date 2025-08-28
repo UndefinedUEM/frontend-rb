@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 const ConfirmationModal = ({
   isOpen,
   onClose,
+  onCancel,
   onConfirm,
   title,
   bodyText,
@@ -21,6 +22,8 @@ const ConfirmationModal = ({
   cancelButtonText = 'Cancelar',
   confirmButtonColorScheme = 'red',
 }) => {
+  const handleCancel = onCancel || onClose;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -31,7 +34,7 @@ const ConfirmationModal = ({
           <Text>{bodyText}</Text>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" mr={3} onClick={onClose}>
+          <Button variant="ghost" mr={3} onClick={handleCancel}>
             {cancelButtonText}
           </Button>
           <Button colorScheme={confirmButtonColorScheme} onClick={onConfirm}>
@@ -44,6 +47,7 @@ const ConfirmationModal = ({
 };
 
 ConfirmationModal.propTypes = {
+  onCancel: PropTypes.func,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
