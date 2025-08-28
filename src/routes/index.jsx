@@ -13,13 +13,19 @@ import AttendanceSuccessPage from '@/pages/attendance/AttendanceSuccessPage';
 import AttendanceHistoryPage from '@/pages/attendance/AttendanceHistoryPage';
 import AttendanceDetailPage from '@/pages/attendance/AttendanceDetailPage';
 import NotFoundPage from '@/pages/NotFoundPage';
+import PreAuthPage from '@/pages/auth/PreAuthPage';
+import PreAuthRoute from '@/components/PreAuthRoute';
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} /> */}
-      <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
+      <Route path="/authorize" element={<PreAuthPage />} />
+      
+      <Route element={<PreAuthRoute />}>
+        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} /> */}
+        <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
+      </Route>
 
       <Route 
         element={

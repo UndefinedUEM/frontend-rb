@@ -116,13 +116,41 @@ const scoutApi = {
     }
   },
 
-   /**
+  /**
    * Busca os dados do usuário.
    * @returns {Promise<any>} id, nome e e-mail do usuário logado.
    */
   getUserData: async () => {
     try {
       const response = await api.get('/auth/userData');
+      return response.data;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  },
+
+  /**
+   * Solicita o envio do código de pré-autenticação para o e-mail do administrador.
+   * @param {string} email - O e-mail para o qual o código será enviado.
+   * @returns {Promise<any>}
+   */
+  requestPreAuthCode: async (email) => {
+    try {
+      const response = await api.post('/access-code/request', { email });
+      return response.data;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  },
+
+  /**
+   * Verifica o código de pré-autenticação de 4 dígitos.
+   * @param {string} code - O código de 4 dígitos.
+   * @returns {Promise<any>}
+   */
+  verifyPreAuthCode: async (code) => {
+    try {
+      const response = await api.post('/access-code/verify', { code });
       return response.data;
     } catch (error) {
       throw new Error(errorHandler(error));
