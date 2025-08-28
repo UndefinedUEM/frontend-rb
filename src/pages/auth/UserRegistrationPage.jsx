@@ -183,15 +183,24 @@ const UserRegistrationPage = () => {
 
           <FormControl isRequired>
             <FormLabel htmlFor="confirmPassword">Confirmar Senha</FormLabel>
-            <Input
-              id="confirmPassword"
-              type="password"
-              icon={showPassword ? <EyeOff /> : <Eye />}
-              placeholder="Digite sua senha novamente"
-              value={confirmPassword}
-              onClick={handleConfirmPasswordVisibility}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <InputGroup>
+              <Input
+                id="confirmPassword"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Digite sua senha novamente"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <InputRightElement>
+                <IconButton
+                  aria-label={showConfirmPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  icon={showConfirmPassword ? <EyeOff /> : <Eye />}
+                  onClick={handleConfirmPasswordVisibility}
+                  variant="ghost"
+                  size="sm"
+                />
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
 
           <Button
