@@ -3,7 +3,6 @@ import Layout from '@/components/Layout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import HomePage from '@/pages/HomePage';
 import LoginPage from '@/pages/auth/LoginPage';
-import PasswordRecoveryPage from '@/pages/auth/PasswordRecoveryPage';
 import UserRegistrationPage from '@/pages/auth/UserRegistrationPage';
 import ScoutRegistrationPage from '@/pages/scouts/ScoutRegistrationPage';
 import ScoutRegistrationSuccessPage from '@/pages/scouts/ScoutRegistrationSuccessPage';
@@ -13,21 +12,22 @@ import AttendanceSuccessPage from '@/pages/attendance/AttendanceSuccessPage';
 import AttendanceHistoryPage from '@/pages/attendance/AttendanceHistoryPage';
 import AttendanceDetailPage from '@/pages/attendance/AttendanceDetailPage';
 import NotFoundPage from '@/pages/NotFoundPage';
-import PreAuthPage from '@/pages/auth/PreAuthPage';
-import PreAuthRoute from '@/components/PreAuthRoute';
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/authorize" element={<PreAuthPage />} />
+      {/* <Route path="/authorize" element={<PreAuthPage />} />
       
       <Route element={<PreAuthRoute />}>
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} /> */}
+        <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
         <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
-      </Route>
+      </Route> */}
 
-      <Route 
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/cadastro/usuario" element={<UserRegistrationPage />} />
+
+      <Route
         element={
           <ProtectedRoute>
             <Layout />
@@ -43,7 +43,7 @@ const AppRoutes = () => {
         <Route path="/listas/historico" element={<AttendanceHistoryPage />} />
         <Route path="/listas/detalhes/:listId" element={<AttendanceDetailPage />} />
       </Route>
-      
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
