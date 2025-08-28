@@ -58,20 +58,28 @@ const Layout = () => {
     onLogoutModalClose();
   };
 
-  const renderLink = (link) => {
+  const renderSingleLink = (link) => {
     const isAttendanceLink = link.to === '/listas/presenca';
     const clickHandler = isAttendanceLink ? handleAttendanceLinkClick : handleLinkClick;
 
+    if (isAttendanceLink) {
+      return (
+        <Button key={link.name} w="full" variant="ghost" colorScheme="white" onClick={clickHandler}>
+          {link.name}
+        </Button>
+      );
+    }
+
     return (
-      <Link key={link.to} to={isAttendanceLink ? '#' : link.to} onClick={clickHandler}>
-        <Button w="full" variant="ghost" colorScheme='white'>
+      <Link key={link.to} to={link.to} onClick={clickHandler}>
+        <Button w="full" variant="ghost" colorScheme="white">
           {link.name}
         </Button>
       </Link>
     );
   };
 
-  const navLinks = displayedLinks.map(link => renderLink(link));
+  const navLinks = displayedLinks.map(link => renderSingleLink(link));
 
   const mobileMenu = !isHomePage && isOpen && (
     <Box pb={4} display={{ md: 'none' }}>
@@ -90,56 +98,71 @@ const Layout = () => {
     </Box>
   );
 
+  const renderHomeNavbar = () => {
+    return (
+      <Flex
+        h={16}
+        w="full"
+        alignItems="center"
+        justifyContent={{ base: 'flex-start', sm: 'center' }}
+        position="relative"
+      >
+        <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
+        <IconButton
+          aria-label="Sair"
+          icon={<LogOut size={20} />}
+          variant="ghost"
+          colorScheme="white"
+          onClick={onLogoutModalOpen}
+          position="absolute"
+          right="0"
+          display={{ base: 'none', sm: 'inline-flex' }}
+        />
+      </Flex>
+    );
+  };
+
+  const renderDefaultNavbar = () => {
+    return (
+      <Flex h={16} alignItems="center" justifyContent="space-between">
+        <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
+        <HStack spacing={4}>
+          <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
+            {navLinks}
+            <IconButton
+              aria-label="Sair"
+              icon={<LogOut size={20} />}
+              variant="ghost"
+              colorScheme="white"
+              onClick={onLogoutModalOpen}
+            />
+          </HStack>
+          <IconButton
+            size="md"
+            variant='link'
+            colorScheme='white'
+            icon={isOpen ? <X /> : <Menu />}
+            aria-label="Abrir menu"
+            display={{ base: 'flex', md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+        </HStack>
+      </Flex>
+    );
+  };
+
+  const renderNavbar = () => {
+    if (isHomePage) {
+      return renderHomeNavbar();
+    }
+    return renderDefaultNavbar();
+  };
+
   return (
     <>
       <Flex direction="column" minH="100vh">
         <Box bg='teal' color='white' px={4} boxShadow="sm" position="sticky" top={0} zIndex={10}>
-          {isHomePage ? (
-            <Flex
-              h={16}
-              w="full"
-              alignItems="center"
-              justifyContent={{ base: 'flex-start', sm: 'center' }}
-              position="relative"
-            >
-              <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
-              <IconButton
-                aria-label="Sair"
-                icon={<LogOut size={20} />}
-                variant="ghost"
-                colorScheme="white"
-                onClick={onLogoutModalOpen}
-                position="absolute"
-                right="0"
-                display={{ base: 'none', sm: 'inline-flex' }}
-              />
-            </Flex>
-          ) : (
-            <Flex h={16} alignItems="center" justifyContent="space-between">
-              <Link to="/"><Box fontWeight="bold">Escoteiros</Box></Link>
-              <HStack spacing={4}>
-                <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-                  {navLinks}
-                  <IconButton
-                    aria-label="Sair"
-                    icon={<LogOut size={20} />}
-                    variant="ghost"
-                    colorScheme="white"
-                    onClick={onLogoutModalOpen}
-                  />
-                </HStack>
-                <IconButton
-                  size="md"
-                  variant='link'
-                  colorScheme='white'
-                  icon={isOpen ? <X /> : <Menu />}
-                  aria-label="Abrir menu"
-                  display={{ base: 'flex', md: 'none' }}
-                  onClick={isOpen ? onClose : onOpen}
-                />
-              </HStack>
-            </Flex>
-          )}
+          {renderNavbar()}
           {mobileMenu}
         </Box>
 

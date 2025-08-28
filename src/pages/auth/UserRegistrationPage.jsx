@@ -31,7 +31,7 @@ const UserRegistrationPage = () => {
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const handleConfirmPasswordVisibility = () => setShowConfirmPassword(!showPassword);
+  const handleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   const { call: handleRegister, loading: isLoading } = useAsync(async () => {
     try {
