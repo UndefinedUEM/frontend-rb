@@ -25,10 +25,13 @@ const UserRegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const handleConfirmPasswordVisibility = () => setShowConfirmPassword(!showPassword);
 
   const { call: handleRegister, loading: isLoading } = useAsync(async () => {
     try {
@@ -183,8 +186,10 @@ const UserRegistrationPage = () => {
             <Input
               id="confirmPassword"
               type="password"
+              icon={showPassword ? <EyeOff /> : <Eye />}
               placeholder="Digite sua senha novamente"
               value={confirmPassword}
+              onClick={handleConfirmPasswordVisibility}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </FormControl>
